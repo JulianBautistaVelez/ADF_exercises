@@ -1,5 +1,5 @@
 {
-	"name": "orders_new_csv",
+	"name": "complete_input_folder",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLake",
@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "OrdersNew.csv",
 				"folderPath": "dataInput",
 				"fileSystem": "testcontainer"
 			},

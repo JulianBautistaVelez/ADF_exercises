@@ -50,13 +50,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "InputCSV",
+						"referenceName": "orders_new_csv",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "OutputCSV",
+						"referenceName": "output_folder",
 						"type": "DatasetReference"
 					}
 				]
