@@ -50,7 +50,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "orders_input_csv",
+						"referenceName": "orders_output_csv",
 						"type": "DatasetReference"
 					}
 				]
