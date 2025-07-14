@@ -11,9 +11,25 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLake'"
 		},
+		"azure_sql_database_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'azure_sql_database'"
+		},
 		"AzureDataLake_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://devjulaz.dfs.core.windows.net/"
+		},
+		"azure_sql_database_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "learningmysql.database.windows.net"
+		},
+		"azure_sql_database_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "learningmysqldb"
+		},
+		"azure_sql_database_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sqladmin"
 		},
 		"containerUri": {
 			"type": "string",
@@ -45,8 +61,20 @@
 					"AzureDataLake_accountKey": {
 						"value": "[parameters('AzureDataLake_accountKey')]"
 					},
+					"azure_sql_database_password": {
+						"value": "[parameters('azure_sql_database_password')]"
+					},
 					"AzureDataLake_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLake_properties_typeProperties_url')]"
+					},
+					"azure_sql_database_properties_typeProperties_server": {
+						"value": "[parameters('azure_sql_database_properties_typeProperties_server')]"
+					},
+					"azure_sql_database_properties_typeProperties_database": {
+						"value": "[parameters('azure_sql_database_properties_typeProperties_database')]"
+					},
+					"azure_sql_database_properties_typeProperties_userName": {
+						"value": "[parameters('azure_sql_database_properties_typeProperties_userName')]"
 					}
 				}
 			},

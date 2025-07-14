@@ -8,8 +8,20 @@
 		"AzureDataLake_accountKey": {
 			"value": ""
 		},
+		"azure_sql_database_password": {
+			"value": ""
+		},
 		"AzureDataLake_properties_typeProperties_url": {
 			"value": "https://devjulaz.dfs.core.windows.net/"
+		},
+		"azure_sql_database_properties_typeProperties_server": {
+			"value": "learningmysql.database.windows.net"
+		},
+		"azure_sql_database_properties_typeProperties_database": {
+			"value": "learningmysqldb"
+		},
+		"azure_sql_database_properties_typeProperties_userName": {
+			"value": "sqladmin"
 		}
 	}
 }
