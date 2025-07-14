@@ -1,10 +1,10 @@
 {
-	"name": "copy_csv_into_sql",
+	"name": "copy_sql_into_csv",
 	"properties": {
-		"description": "Copia los contendidos de un CSV a una tabla de sql",
+		"description": "Copia una tabla de SQL a un fichero CSV",
 		"activities": [
 			{
-				"name": "copy_csv_into_sql",
+				"name": "copy_sql_into_csv",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -17,22 +17,20 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "AzureSqlSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false,
-						"tableOption": "autoCreate",
-						"disableMetricsCollection": false
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"translator": {
@@ -46,13 +44,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "orders_input_csv",
+						"referenceName": "azure_sql_orders_table",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "azure_sql_orders_table",
+						"referenceName": "orders_input_csv",
 						"type": "DatasetReference"
 					}
 				]

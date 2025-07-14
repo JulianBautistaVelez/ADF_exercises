@@ -1,5 +1,5 @@
 {
-	"name": "orders_csv",
+	"name": "orders_input_csv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLake",

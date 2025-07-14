@@ -50,7 +50,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "orders_new_csv",
+						"referenceName": "orders_new_input_csv",
 						"type": "DatasetReference"
 					}
 				],
