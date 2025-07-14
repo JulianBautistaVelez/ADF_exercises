@@ -1,0 +1,9 @@
+{
+	"name": "learningdatafactoryjul",
+	"location": "spaincentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "79baa876-b2f1-4b9b-adcd-61a96d21aebd",
+		"tenantId": "c0beff76-e6d8-4279-96b9-29e369b293f5"
+	}
+}
