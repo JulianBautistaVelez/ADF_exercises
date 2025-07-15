@@ -86,7 +86,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "orders_csv",
+								"referenceName": "orders_input_csv",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -106,7 +106,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/orders_csv')]",
+				"[concat(variables('factoryId'), '/datasets/orders_input_csv')]",
 				"[concat(variables('factoryId'), '/datasets/azure_sql_orders_table')]"
 			]
 		},
@@ -188,6 +188,78 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/complete_input_folder')]",
 				"[concat(variables('factoryId'), '/datasets/output_folder')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/copy_sql_into_csv')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copia una tabla de SQL a un fichero CSV",
+				"activities": [
+					{
+						"name": "copy_sql_into_csv",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "azure_sql_orders_table",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "orders_output_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/azure_sql_orders_table')]",
+				"[concat(variables('factoryId'), '/datasets/orders_output_csv')]"
 			]
 		},
 		{
@@ -323,7 +395,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "orders_new_csv",
+								"referenceName": "orders_new_input_csv",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -343,7 +415,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/orders_new_csv')]",
+				"[concat(variables('factoryId'), '/datasets/orders_new_input_csv')]",
 				"[concat(variables('factoryId'), '/datasets/output_folder')]"
 			]
 		},
@@ -422,7 +494,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/orders_csv')]",
+			"name": "[concat(parameters('factoryName'), '/orders_input_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -488,7 +560,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/orders_new_csv')]",
+			"name": "[concat(parameters('factoryName'), '/orders_new_input_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -536,6 +608,35 @@
 						"type": "String"
 					}
 				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/orders_output_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLake",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Orders.csv",
+						"folderPath": "dataOutput",
+						"fileSystem": "testcontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLake')]"
@@ -608,6 +709,154 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/create_additional_colunms')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Mueve un fichero CSV y crea una columna extra.",
+				"activities": [
+					{
+						"name": "create_additional_colunms",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"additionalColumns": [
+									{
+										"name": "FileName",
+										"value": "$$FILENAME"
+									}
+								],
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "YearWise",
+									"wildcardFileName": "*.csv",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "year_wise_input_folder",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "azure_sql_table_orders",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/year_wise_input_folder')]",
+				"[concat(variables('factoryId'), '/datasets/azure_sql_table_orders')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/year_wise_input_folder')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLake",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "YearWise",
+						"fileSystem": "testcontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DATE",
+						"type": "String"
+					},
+					{
+						"name": "COUNTRY",
+						"type": "String"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "String"
+					},
+					{
+						"name": "SALES",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/azure_sql_table_orders')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "azure_sql_database",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "TableOrders"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/azure_sql_database')]"
+			]
 		}
 	]
 }
