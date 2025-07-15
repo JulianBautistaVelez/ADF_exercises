@@ -1,0 +1,24 @@
+{
+	"name": "azure_sql_multiple_tables",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azure_sql_database",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"table_name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().table_name",
+				"type": "Expression"
+			}
+		}
+	}
+}
