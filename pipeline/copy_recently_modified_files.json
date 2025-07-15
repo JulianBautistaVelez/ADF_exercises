@@ -25,6 +25,10 @@
 								"value": "@addhours(utcNow(), -1)",
 								"type": "Expression"
 							},
+							"modifiedDatetimeEnd": {
+								"value": "@utcNow()",
+								"type": "Expression"
+							},
 							"wildcardFolderPath": "YearWise",
 							"wildcardFileName": "*.csv",
 							"enablePartitionDiscovery": false

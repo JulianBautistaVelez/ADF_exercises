@@ -1,0 +1,14 @@
+{
+	"name": "for_each",
+	"properties": {
+		"activities": [
+			{
+				"name": "for_each",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": []
+			}
+		],
+		"annotations": []
+	}
+}
