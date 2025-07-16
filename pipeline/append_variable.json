@@ -1,0 +1,92 @@
+{
+	"name": "append_variable",
+	"properties": {
+		"description": "Inserta datos en una variable que es un array.",
+		"activities": [
+			{
+				"name": "append_variable",
+				"type": "AppendVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "x",
+					"value": "100"
+				}
+			},
+			{
+				"name": "set_array_value",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "append_variable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "output",
+					"value": {
+						"value": "@variables('x')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "append_variable_2",
+				"type": "AppendVariable",
+				"dependsOn": [
+					{
+						"activity": "set_array_value",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "x",
+					"value": "200"
+				}
+			},
+			{
+				"name": "set_array_value_copy1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "append_variable_2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "output",
+					"value": {
+						"value": "@variables('x')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"x": {
+				"type": "Array"
+			},
+			"output": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}

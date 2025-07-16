@@ -1,0 +1,16 @@
+{
+	"name": "azure_table_orders_reduced",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azure_sql_database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "OrdersPrimary"
+		}
+	}
+}

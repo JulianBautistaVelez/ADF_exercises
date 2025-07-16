@@ -1,0 +1,12 @@
+{
+	"name": "azure_table_with_sql_inserts",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azure_sql_database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
