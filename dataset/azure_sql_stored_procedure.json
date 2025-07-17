@@ -1,0 +1,12 @@
+{
+	"name": "azure_sql_stored_procedure",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azure_sql_database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
