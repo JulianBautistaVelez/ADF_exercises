@@ -1,0 +1,67 @@
+{
+	"name": "conditional",
+	"properties": {
+		"description": "Usa la actividad if",
+		"activities": [
+			{
+				"name": "conditional",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(pipeline().parameters.variable,500)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "negative_output",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "negative",
+								"value": "\"FALSE\""
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "true_output",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "result",
+								"value": "\"TRUE\""
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"variable": {
+				"type": "int",
+				"defaultValue": 500
+			}
+		},
+		"variables": {
+			"result": {
+				"type": "String"
+			},
+			"negative": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
