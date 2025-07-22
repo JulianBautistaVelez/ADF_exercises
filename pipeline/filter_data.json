@@ -1,0 +1,40 @@
+{
+	"name": "filter_data",
+	"properties": {
+		"description": "Usa la actividad \"Filter\"",
+		"activities": [
+			{
+				"name": "greater_than_three",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.numbres_array",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@greater(item(),3)",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"numbres_array": {
+				"type": "array",
+				"defaultValue": [
+					1,
+					4,
+					2,
+					5,
+					1,
+					1,
+					7,
+					8
+				]
+			}
+		},
+		"annotations": []
+	}
+}
