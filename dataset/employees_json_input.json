@@ -1,0 +1,33 @@
+{
+	"name": "employees_json_input",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Employees .json",
+				"folderPath": "dataInput",
+				"fileSystem": "testcontainer"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"EmployeeKey": {
+					"type": "integer"
+				},
+				"EmpName": {
+					"type": "string"
+				},
+				"Contact": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}

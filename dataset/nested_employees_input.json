@@ -1,0 +1,41 @@
+{
+	"name": "nested_employees_input",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "EmployeesNested.json",
+				"folderPath": "dataInput",
+				"fileSystem": "testcontainer"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"EmployeeKey": {
+					"type": "integer"
+				},
+				"EmpName": {
+					"type": "string"
+				},
+				"Contact": {
+					"type": "object",
+					"properties": {
+						"Email": {
+							"type": "string"
+						},
+						"Phone": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	}
+}

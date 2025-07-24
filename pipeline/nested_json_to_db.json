@@ -1,0 +1,94 @@
+{
+	"name": "nested_json_to_db",
+	"properties": {
+		"description": "Lee y aplana un json para guardarlo en bd",
+		"activities": [
+			{
+				"name": "nested_json_to_db",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['EmployeeKey']"
+								},
+								"sink": {
+									"name": "EmployeeId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['EmpName']"
+								},
+								"sink": {
+									"name": "EmployeeName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Contact']['Email']"
+								},
+								"sink": {
+									"name": "Email",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Contact']['Phone']"
+								},
+								"sink": {
+									"name": "Contact",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "nested_employees_input",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTable2",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

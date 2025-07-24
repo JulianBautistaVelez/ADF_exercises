@@ -1,0 +1,19 @@
+{
+	"name": "orders_json_output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "dataOutput",
+				"fileSystem": "testcontainer"
+			}
+		},
+		"schema": {}
+	}
+}
