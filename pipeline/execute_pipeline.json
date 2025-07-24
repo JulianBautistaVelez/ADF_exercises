@@ -1,0 +1,25 @@
+{
+	"name": "execute_pipeline",
+	"properties": {
+		"description": "Pipeline orquestadora de otras pipelines",
+		"activities": [
+			{
+				"name": "execute_pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "append_variable",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": []
+	}
+}
